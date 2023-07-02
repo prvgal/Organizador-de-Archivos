@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+
+#include "funciones.cpp"
+
+int main(){
+    system("cls");
+
+    int op = 0;
+
+    do{
+        if(op < 0 || op > 2){
+            system("cls");
+            std::cout << "Elige una opcion correcta." << endl;
+        }
+
+        std::cout << "------MENU PRINCIPAL------" << endl;
+
+        std::cout << "<1> Organizar" << endl;
+        std::cout << "<2> Anadir extensiones" << endl;
+        std::cout << "<0> Salir" << endl;
+
+        std::cout << "Ingresa una opcion: ";
+        std::cin >> op;
+
+        switch(op){
+            case 0: break;
+            case 1: /* Llamada a funcion */ break;
+            case 2: AnadirExtensiones(); break;
+        }
+
+    } while(op != 0);
+
+    return 0;
+}
