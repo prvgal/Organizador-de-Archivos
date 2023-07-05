@@ -4,11 +4,11 @@ using namespace std;
 #include "funciones.cpp"
 
 int main(){
-    system("cls");
-
     int op = 0;
 
     do{
+        system("cls");
+
         if(op < 0 || op > 2){
             system("cls");
             std::cout << "Elige una opcion correcta." << endl;
@@ -18,6 +18,7 @@ int main(){
 
         std::cout << "<1> Organizar" << endl;
         std::cout << "<2> Anadir extensiones" << endl;
+        std::cout << "<3> Ver mis extensiones anadidas" << endl;
         std::cout << "<0> Salir" << endl;
 
         std::cout << "Ingresa una opcion: ";
@@ -27,6 +28,7 @@ int main(){
             case 0: break;
             case 1: /* Llamada a funcion */ break;
             case 2: AnadirExtensiones(); break;
+            case 3: /* Llamada a funcion */ break;
         }
 
     } while(op != 0);
