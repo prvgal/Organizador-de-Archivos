@@ -6,28 +6,31 @@ using namespace std;
 
 #include "funciones.h"
 
-// TODO: hacer funcion escalable
 size_t AnadirExtensiones(string **infoExtensiones, size_t dim){
     system("cls");
 
     char op;
-    size_t i = 1;
-    string arr;
-    string *extensiones = new string[1];   // Por defecto, solo habra un string
     dim += 1;
+    string *extensionesAntiguas = *infoExtensiones;
 
     *infoExtensiones = malloc_str(dim);
 
-    if(extensiones == nullptr){
+    if(*infoExtensiones == nullptr){
         std::cout << "Error en asignacion de memoria." << endl;
         std::exit(EXIT_FAILURE);
     }
+
+    // Copiamos las extensiones antiguas en el nuevo array
+    for(size_t i = 0; i < dim-1; i++)
+        (*infoExtensiones)[i] = extensionesAntiguas[i];
+
+    delete[] extensionesAntiguas; // Liberamos memoria, las extensiones antiguas ya estan en infoExtensiones
 
     std::cout << "MENU ANADIR EXTENSIONES" << endl;
     std::cout << "A continuacion, debera poner el nombre de las extensiones. Por ejemplo, jpg." << endl;
     
     do{
-        extensiones[i-1] = IntroducirExtension(extensiones, i);
+        (*infoExtensiones)[dim-1] = IntroducirExtension(*infoExtensiones, dim);
 
         do{
             std::cout << "\nDesea seguir anadiendo extensiones? (S/n): ";
@@ -39,16 +42,13 @@ size_t AnadirExtensiones(string **infoExtensiones, size_t dim){
         } while(op != 'S' && op != 'n');
 
         if(op == 'S'){
-            i += 1;
-            resize_str(&extensiones, i-1, i);
+            dim += 1;
+            resize_str(infoExtensiones, dim-1, dim);
         }
 
     } while(op == 'S');
 
-    ImprimirExtensiones(extensiones, i);
-    system("pause");
-
-    delete[] extensiones;
+    ImprimirExtensiones(*infoExtensiones, dim);
 
     return dim;
 }
@@ -56,10 +56,16 @@ size_t AnadirExtensiones(string **infoExtensiones, size_t dim){
 void ImprimirExtensiones(string *extensiones, size_t tam){
     system("cls");
 
-    std::cout << "Sus extensiones: " << endl;
+    if(tam == 0)
+        std::cout << "Aun no ha anadido ninguna extension. Para ello, en el menu principal, use la opcion 2." << endl; 
+    else{
+        std::cout << "Sus extensiones: " << endl;
 
-    for(size_t i = 0; i < tam; i++)
-        std::cout << i+1 << ". " << extensiones[i] << endl;
+        for(size_t i = 0; i < tam; i++)
+            std::cout << i+1 << ". " << extensiones[i] << endl;
+    }
+
+    system("pause");
 }
 
 void resize_str(string **array, size_t tamAntiguo, size_t tamNuevo){
