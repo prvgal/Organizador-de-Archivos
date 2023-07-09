@@ -1,15 +1,19 @@
 #include <iostream>
 using namespace std;
 
-#include "funciones.cpp"
+#include "funciones.h"
+#include "organizar.h"
 
 int main(){
     int op = 0;
+    size_t numExtensiones = 0;
+    string ruta;
+    string* extensiones = nullptr;
 
     do{
         system("cls");
 
-        if(op < 0 || op > 2){
+        if(op < 0 || op > 3){
             system("cls");
             std::cout << "Elige una opcion correcta." << endl;
         }
@@ -26,12 +30,14 @@ int main(){
 
         switch(op){
             case 0: break;
-            case 1: /* Llamada a funcion */ break;
-            case 2: AnadirExtensiones(); break;
-            case 3: /* Llamada a funcion */ break;
+            case 1: ruta = getRuta(); break;
+            case 2: numExtensiones = AnadirExtensiones(&extensiones, numExtensiones); break;
+            case 3: ImprimirExtensiones(extensiones, numExtensiones); break;
         }
 
     } while(op != 0);
+
+    free_str(&extensiones);
 
     return 0;
 }
