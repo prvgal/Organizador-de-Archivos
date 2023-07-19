@@ -6,17 +6,17 @@ using namespace std;
 
 #include "funciones.h"
 
-size_t AnadirExtensiones(string **infoExtensiones, size_t dim){
+size_t AnadirExtensiones(string** infoExtensiones, size_t dim){
     system("cls");
 
     char op;
     dim += 1;
-    string *extensionesAntiguas = *infoExtensiones;
+    string* extensionesAntiguas = *infoExtensiones;
 
     *infoExtensiones = malloc_str(dim);
 
     if(*infoExtensiones == nullptr){
-        std::cout << "Error en asignacion de memoria." << endl;
+        std::cerr << "Error en asignacion de memoria." << endl;
         std::exit(EXIT_FAILURE);
     }
 
@@ -53,7 +53,7 @@ size_t AnadirExtensiones(string **infoExtensiones, size_t dim){
     return dim;
 }
 
-void ImprimirExtensiones(string *extensiones, size_t tam){
+void ImprimirExtensiones(string* extensiones, size_t tam){
     system("cls");
 
     if(tam == 0)
@@ -65,16 +65,21 @@ void ImprimirExtensiones(string *extensiones, size_t tam){
             std::cout << i+1 << ". " << extensiones[i] << endl;
     }
 
-    system("pause");
+    // Evitamos problemas de buffer
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Descartar el carácter de nueva línea
+
+    // Pausamos para que pueda ver las extensiones
+    std::cout << "Presione ENTER para continuar...";
+    std::cin.get();
 }
 
-void resize_str(string **array, size_t tamAntiguo, size_t tamNuevo){
+void resize_str(string** array, size_t tamAntiguo, size_t tamNuevo){
     size_t tam = tamAntiguo + tamNuevo;
 
-    string *nuevoArray = new string[tam];
+    string* nuevoArray = new string[tam];
 
     if(nuevoArray == nullptr){
-        std::cout << "Error en asignacion de memoria";
+        std::cerr << "Error en asignacion de memoria";
         std::exit(EXIT_FAILURE);
     }
 
@@ -86,7 +91,7 @@ void resize_str(string **array, size_t tamAntiguo, size_t tamNuevo){
     *array = nuevoArray;
 }
 
-string IntroducirExtension(string *extensiones, size_t tamExtensiones){
+string IntroducirExtension(string* extensiones, size_t tamExtensiones){
     string arr;
 
     do{
@@ -101,7 +106,7 @@ string IntroducirExtension(string *extensiones, size_t tamExtensiones){
     return arr;
 }
 
-bool ComprobarExtension(string arr, string *extensiones, size_t tam){
+bool ComprobarExtension(string arr, string* extensiones, size_t tam){
     bool igual = false;
 
     for(size_t i = 0; i < tam && igual == false; i++){
@@ -112,18 +117,18 @@ bool ComprobarExtension(string arr, string *extensiones, size_t tam){
     return igual;
 }
 
-string *malloc_str(size_t dim){
-    string *str = new string[dim];
+string* malloc_str(size_t dim){
+    string* str = new string[dim];
 
     if(str == nullptr){
-        std::cout << "Error en asignacion de memoria";
+        std::cerr << "Error en asignacion de memoria";
         std::exit(EXIT_FAILURE);
     }
 
     return str;
 }
 
-void free_str(string **str){
+void free_str(string** str){
     delete[] *str;
     *str = nullptr;
 }
