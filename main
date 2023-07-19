@@ -30,7 +30,7 @@ int main(){
 
         switch(op){
             case 0: break;
-            case 1: ruta = getRuta(); break;
+            case 1: OrganizarArchivos(extensiones, numExtensiones); break;
             case 2: numExtensiones = AnadirExtensiones(&extensiones, numExtensiones); break;
             case 3: ImprimirExtensiones(extensiones, numExtensiones); break;
         }
@@ -39,5 +39,6 @@ int main(){
 
     free_str(&extensiones);
 
-    return 0;
+    system("pause");
+    return EXIT_SUCCESS;
 }
