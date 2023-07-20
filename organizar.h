@@ -1,11 +1,11 @@
 #ifndef ORGANIZAR_H
 #define ORGANIZAR_H
 
-void CopiarArchivo(string archivoOrigen, string archivoDestino);
-void OrganizarArchivos(string* extensiones, size_t numExtensiones);
-string getRuta(void);
-string PedirRuta(int op);
-string CrearDirectorio(int op);
+void CopiarArchivo(const fs::path& archivoOrigen, const fs::path& archivoDestino);
+void OrganizarArchivos(const std::vector<fs::path>& extensiones);
+fs::path getRuta(void);
+fs::path PedirRuta(int op);
+fs::path CrearDirectorio(int op);
 int PreguntarCrearDirectorio(void);
 
 #endif

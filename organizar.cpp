@@ -8,7 +8,7 @@ namespace fs = std::filesystem;
 
 #include "organizar.h"
 
-void CopiarArchivo(string archivoOrigen, string archivoDestino){
+void CopiarArchivo(const fs::path& archivoOrigen, const fs::path& archivoDestino){
     std::ifstream origen(archivoOrigen, std::ios::binary);
     
     if(!origen){
@@ -16,8 +16,7 @@ void CopiarArchivo(string archivoOrigen, string archivoDestino){
         exit(EXIT_FAILURE);
     }
 
-    string nombre = fs::path(archivoOrigen).filename().string();
-    string rutaDestino = archivoDestino + "\\" + nombre;
+    fs::path rutaDestino = archivoDestino / archivoOrigen.stem();
     std::ofstream destino(rutaDestino, std::ios::binary);
 
     if(!destino){
@@ -31,20 +30,20 @@ void CopiarArchivo(string archivoOrigen, string archivoDestino){
     destino.close();
 }
 
-void OrganizarArchivos(string* extensiones, size_t numExtensiones){
+void OrganizarArchivos(const std::vector<fs::path>& extensiones){
     system("cls");
     
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    if(numExtensiones == 0){
+    if(extensiones.empty()){
         std::cout << "Debes tener extensiones anadidas previamente." << endl;
         std::cout << "Presione ENTER para continuar...";
         std::cin.get();
     } else{
-        string ruta = getRuta();
+        fs::path ruta = getRuta();
 
-        for(size_t i = 0; i < numExtensiones; i++){
-            string dir = ruta + "\\" + extensiones[i];
+        for(const fs::path& extension : extensiones){
+            fs::path dir = ruta / extension;
 
             if(!fs::create_directory(dir)){
                 std::cerr << "Error en creacion de directorio." << endl;
@@ -57,10 +56,8 @@ void OrganizarArchivos(string* extensiones, size_t numExtensiones){
     }
 }
 
-string getRuta(void){
-    system("cls");
-
-    string ruta;
+fs::path getRuta(void){
+    fs::path ruta;
     int op = PreguntarCrearDirectorio();
 
     if(op == 0)
@@ -82,8 +79,9 @@ string getRuta(void){
     return ruta;
 }
 
-string PedirRuta(int op){
-    string dir;
+fs::path PedirRuta(int op){
+    string input;
+    fs::path dir;   
 
     do{
         if(op == 0)
@@ -91,7 +89,8 @@ string PedirRuta(int op){
         else
             std::cout << "Para crear el directorio, ingrese la ruta donde quieres crearlo: ";
 
-        std::getline(std::cin, dir);
+        std::getline(std::cin, input);
+        dir = input;
 
         if(!fs::exists(dir) || !fs::is_directory(dir))  
             std::cout << "El directorio no existe, o no es valido." << endl;
@@ -101,14 +100,14 @@ string PedirRuta(int op){
     return dir;
 }
 
-string CrearDirectorio(int op){
+fs::path CrearDirectorio(int op){
     string nomDir;
-    string dondeCrear = PedirRuta(op);
+    fs::path dondeCrear = PedirRuta(op);
 
     std::cout << "Ingrese el nombre del directorio a crear: ";
     std::getline(std::cin, nomDir);
 
-    string ruta = dondeCrear + "\\" + nomDir;
+    fs::path ruta = dondeCrear / nomDir;
 
     if(!fs::create_directory(ruta)){
         std::cerr << "Error en creacion de directorio." << endl;
