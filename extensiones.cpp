@@ -55,9 +55,9 @@ void ImprimirExtensiones(const std::vector<fs::path>& extensiones){
     std::cin.get();
 }
 
-
 fs::path IntroducirExtension(const std::vector<fs::path>& extensiones){
-    fs::path extension;
+    string extension;
+    fs::path devolver;
 
     do{
         std::cout << "\nIngrese extension: ";
@@ -66,7 +66,14 @@ fs::path IntroducirExtension(const std::vector<fs::path>& extensiones){
         if(std::find(extensiones.begin(), extensiones.end(), extension) != extensiones.end())
             std::cout << "La extension ya fue anadida anteriormente." << endl;
 
-    } while(std::find(extensiones.begin(), extensiones.end(), extension) != extensiones.end());
+        // Comprobamos si ha puesto el punto
+        if(extension[0] != '.')
+            extension = '.' + extension;
+        
+        // Transformamos el string a path
+        devolver = fs::path(extension);
 
-    return extension;
+    } while(std::find(extensiones.begin(), extensiones.end(), devolver) != extensiones.end());
+
+    return devolver;
 }

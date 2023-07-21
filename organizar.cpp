@@ -16,8 +16,7 @@ void CopiarArchivo(const fs::path& archivoOrigen, const fs::path& archivoDestino
         exit(EXIT_FAILURE);
     }
 
-    fs::path rutaDestino = archivoDestino / archivoOrigen.stem();
-    std::ofstream destino(rutaDestino, std::ios::binary);
+    std::ofstream destino(archivoDestino, std::ios::binary);
 
     if(!destino){
         std::cerr << "No se pudo abrir el archivo." << endl;
@@ -42,18 +41,42 @@ void OrganizarArchivos(const std::vector<fs::path>& extensiones){
     } else{
         fs::path ruta = getRuta();
 
+        // Creamos los directorios correspondientes de cada extension
         for(const fs::path& extension : extensiones){
-            fs::path dir = ruta / extension;
+            string aux = extension.string();
+            fs::path dir = ruta / fs::path(aux.substr(1));
 
             if(!fs::create_directory(dir)){
                 std::cerr << "Error en creacion de directorio." << endl;
                 exit(EXIT_FAILURE);
-            } 
-            
-            // TODO: recorrer todos los archivos de la ruta
-        
+            }        
+        }
+
+        // Iteramos cada elemento de la ruta
+        for(const auto& iter : fs::directory_iterator(ruta)){
+            if(!fs::is_directory(iter) && ComprobarExtension(iter.path(), extensiones)){
+                fs::path dirOrigen = iter.path();
+                string aux = dirOrigen.extension().string().substr(1);    // Eliminamos el . de la extension
+                fs::path dirGuardar = ruta / fs::path(aux) / dirOrigen.filename();    // Obtenemos el archivoDestino
+                CopiarArchivo(dirOrigen, dirGuardar);
+
+                // Eliminamos el archivo de dirOrigen
+                if(!fs::remove(dirOrigen))
+                    std::cerr << "El archivo no se ha podido eliminar " << dirOrigen.filename() << "de la ruta original." << endl;
+            }
         }
     }
+}
+
+bool ComprobarExtension(const fs::path& archivo, const std::vector<fs::path>& extensiones){
+    bool esValido = false;
+
+    for(const fs::path& ext : extensiones){
+        if(archivo.extension() == ext)
+            esValido = true;
+    }
+
+    return esValido;
 }
 
 fs::path getRuta(void){
@@ -107,7 +130,7 @@ fs::path CrearDirectorio(int op){
     std::cout << "Ingrese el nombre del directorio a crear: ";
     std::getline(std::cin, nomDir);
 
-    fs::path ruta = dondeCrear / nomDir;
+    fs::path ruta = dondeCrear / fs::path(nomDir);
 
     if(!fs::create_directory(ruta)){
         std::cerr << "Error en creacion de directorio." << endl;
