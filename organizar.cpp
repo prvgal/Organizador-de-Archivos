@@ -35,9 +35,18 @@ void OrganizarArchivos(const std::vector<fs::path>& extensiones){
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     if(extensiones.empty()){
-        std::cout << "Debes tener extensiones anadidas previamente." << endl;
-        std::cout << "Presione ENTER para continuar...";
-        std::cin.get();
+        int op;
+
+        std::cout << "Debes tener extensiones anadidas previamente (0) o organizar todas las extensiones (1)." << endl;
+        std::cin >> op;
+
+        if(op == 1)
+            OrganizarDirectorioCompleto();
+        else{
+            std::cout << "Presione ENTER para continuar...";
+            std::cin.get();
+        }
+
     } else{
         fs::path ruta = getRuta();
 
@@ -63,6 +72,39 @@ void OrganizarArchivos(const std::vector<fs::path>& extensiones){
                 // Eliminamos el archivo de dirOrigen
                 if(!fs::remove(dirOrigen))
                     std::cerr << "El archivo no se ha podido eliminar " << dirOrigen.filename() << "de la ruta original." << endl;
+            }
+        }
+    }
+}
+
+void OrganizarDirectorioCompleto() {
+    fs::path ruta = getRuta();
+    fs::path extension;
+    std::vector<fs::path> extensiones;
+
+    for(const auto& iter : fs::directory_iterator(ruta)){
+        if(!fs::is_directory(iter)){
+            extension = iter.path().extension();
+            extensiones.push_back(extension);
+
+            string aux = extension.string().substr(1);
+            fs::path dir = ruta / fs::path(aux);
+
+            // Comprobamos si ya se ha creado el directorio previamente
+            if(!fs::exists(dir)){
+                if(!fs::create_directory(dir)){
+                    std::cerr << "Error en creacion de directorio: " << dir << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+            }
+
+            fs::path dirOrigen = iter.path();
+            fs::path dirGuardar = dir / dirOrigen.filename();
+
+            CopiarArchivo(dirOrigen, dirGuardar);
+
+            if(!fs::remove(dirOrigen)){
+                std::cerr << "El archivo no se ha podido eliminar: " << dirOrigen.filename() << std::endl;
             }
         }
     }
