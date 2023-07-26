@@ -18,7 +18,7 @@ void Interfaz::CrearControles(){
 	cabecera->SetFont(headlineFont);
 	
 	input = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(100, 80), wxSize(495, 35), wxTE_PROCESS_ENTER);
-	addBoton = new wxButton(panel, wxID_ANY, "Añadir", wxPoint(600, 80), wxSize(100, 35));
+	addBoton = new wxButton(panel, wxID_ANY, "AÃ±adir", wxPoint(600, 80), wxSize(100, 35));
 	lista = new wxListBox(panel, wxID_ANY, wxPoint(100, 120), wxSize(600, 400));
 	clearBoton = new wxButton(panel, wxID_ANY, "Borrar todo", wxPoint(100, 525), wxSize(150, 35));
 
@@ -33,11 +33,11 @@ void Interfaz::CrearControles(){
 }
 
 void Interfaz::SetColors(){
-	// Configuración de colores para el modo oscuro
+	// ConfiguraciÃ³n de colores para el modo oscuro
 	wxColour darkGrayBackground(56, 56, 56); // RGB: (56, 56, 56) representa el gris oscuro
 	wxColour whiteText(255, 255, 255); // RGB: (255, 255, 255) representa el color blanco
 
-	// Configuración del fondo
+	// ConfiguraciÃ³n del fondo
 	panel->SetBackgroundColour(darkGrayBackground);
 	input->SetBackgroundColour(darkGrayBackground);
 	addBoton->SetBackgroundColour(darkGrayBackground);
@@ -46,7 +46,7 @@ void Interfaz::SetColors(){
 	inputRuta->SetBackgroundColour(darkGrayBackground);
 	startBoton->SetBackgroundColour(darkGrayBackground);
 
-	// Configuración de las letras
+	// ConfiguraciÃ³n de las letras
 	panel->SetForegroundColour(whiteText);
 	cabecera->SetForegroundColour(whiteText);
 	input->SetForegroundColour(whiteText);
@@ -82,14 +82,14 @@ void Interfaz::AnadirExtensionDesdeInput(){
 	std::string conversion = extension.ToStdString();
 
 	bool esRepetido;
-	std::string aux = GuardarExtension(extensiones, conversion, esRepetido);	// aux tendrá la extension con el punto añadido
+	std::string aux = GuardarExtension(extensiones, conversion, esRepetido);	// aux tendrÃ¡ la extension con el punto aÃ±adido
 
 	wxString myExtension(aux);	// De std::string a wxString
 
 	if(!extension.IsEmpty() && !esRepetido) 
 		lista->Insert(myExtension, lista->GetCount());
 	else{
-		wxMessageDialog dialog(this, "No puede añadir dos extensiones iguales", "Error");
+		wxMessageDialog dialog(this, "No puede aÃ±adir dos extensiones iguales", "Error");
 		dialog.ShowModal();
 	}
 
@@ -112,7 +112,7 @@ void Interfaz::EliminarExtensionSeleccionada(){
 
 void Interfaz::ClickEnBotonClear(wxCommandEvent& event){
 	if(!lista->IsEmpty()){
-		wxMessageDialog dialog(this, "¿Seguro que desea eliminar todas las extensiones añadidas?", "Borrar todo", wxYES_NO | wxCANCEL);
+		wxMessageDialog dialog(this, "Â¿Seguro que desea eliminar todas las extensiones aÃ±adidas?", "Borrar todo", wxYES_NO | wxCANCEL);
 		
 		int op = dialog.ShowModal();
 
