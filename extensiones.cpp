@@ -1,7 +1,7 @@
 #include "extensiones.h"
 
 std::string GuardarExtension(std::vector<fs::path>& extensiones, std::string& extension, bool& encontrado){
-	// Si no esta añadido el punto al principio de la extension, lo añadimos
+	// Si no esta aÃ±adido el punto al principio de la extension, lo aÃ±adimos
 	if(extension[0] != '.')
 		extension = '.' + extension;
 
@@ -21,7 +21,7 @@ std::string GuardarExtension(std::vector<fs::path>& extensiones, std::string& ex
 
 bool esRepetido(const std::vector<fs::path>& extensiones, const fs::path& extBuscar){
 	bool devolver = false;
-
+	
 	for(const auto& ext : extensiones){
 		if(ext == extBuscar)
 			devolver = true;
@@ -31,5 +31,5 @@ bool esRepetido(const std::vector<fs::path>& extensiones, const fs::path& extBus
 }
 
 void EliminarExtensionDeLaLista(std::vector<fs::path>& extensiones, int index){
-	extensiones.erase(extensiones.begin() + index);	// Eliminamos el elemento en la posición index
+	extensiones.erase(extensiones.begin() + index);	// Eliminamos el elemento en la posiciÃ³n index
 }
