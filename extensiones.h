@@ -4,7 +4,6 @@
 #include <vector>
 #include <filesystem>
 
-
 namespace fs = std::filesystem;
 
 std::string GuardarExtension(std::vector<fs::path>& extensiones, std::string& extension, bool& encontrado);

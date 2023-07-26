@@ -22,8 +22,12 @@ class Interfaz : public wxFrame {
 		void AnadirExtensionDesdeInput();
 		void EliminarExtensionSeleccionada();
 
+		void OrganizarDirectorioPorExtension(const fs::path& ruta);
+		void OrganizarDirectorioCompleto(const fs::path& ruta);
+
 		void SetColors();
-		
+		void SetStatusBarBackground(const wxColour& color);
+
 		wxPanel* panel;
 		wxStaticText* cabecera;
 		wxTextCtrl* input;

@@ -1,16 +1,16 @@
 #include "extensiones.h"
 
-std::string GuardarExtension(std::vector<fs::path>& extensiones, std::string& extension, bool& encontrado){
-	// Si no esta aÃ±adido el punto al principio de la extension, lo aÃ±adimos
-	if(extension[0] != '.')
+std::string GuardarExtension(std::vector<fs::path>& extensiones, std::string& extension, bool& encontrado) {
+	// Si no esta añadido el punto al principio de la extension, lo añadimos
+	if (extension[0] != '.')
 		extension = '.' + extension;
 
 	fs::path ext = fs::path(extension);	// Transformamos a path el string extension
 
 	// Guardamos la extension en el vector
-	if(esRepetido(extensiones, ext))
+	if (esRepetido(extensiones, ext))
 		encontrado = true;
-	else{
+	else {
 		extensiones.push_back(ext);
 		encontrado = false;
 	}
@@ -19,17 +19,17 @@ std::string GuardarExtension(std::vector<fs::path>& extensiones, std::string& ex
 	return extension;
 }
 
-bool esRepetido(const std::vector<fs::path>& extensiones, const fs::path& extBuscar){
+bool esRepetido(const std::vector<fs::path>& extensiones, const fs::path& extBuscar) {
 	bool devolver = false;
-	
-	for(const auto& ext : extensiones){
-		if(ext == extBuscar)
+
+	for (const auto& ext : extensiones) {
+		if (ext == extBuscar)
 			devolver = true;
 	}
 
 	return devolver;
 }
 
-void EliminarExtensionDeLaLista(std::vector<fs::path>& extensiones, int index){
-	extensiones.erase(extensiones.begin() + index);	// Eliminamos el elemento en la posiciÃ³n index
+void EliminarExtensionDeLaLista(std::vector<fs::path>& extensiones, int index) {
+	extensiones.erase(extensiones.begin() + index);	// Eliminamos el elemento en la posición index
 }

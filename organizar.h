@@ -12,4 +12,3 @@ void OrganizarDirectorioPorExtension(const std::vector<fs::path>& extensiones, c
 void OrganizarDirectorioCompleto(const fs::path& ruta);
 bool ExisteExtension(const fs::path& archivo, const std::vector<fs::path>& extensiones);
 void CopiarArchivo(const fs::path& archivoOrigen, const fs::path& archivoDestino);
-void SeleccionarTipo(const std::vector<fs::path>& extensiones, const fs::path& ruta);
