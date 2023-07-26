@@ -1,14 +1,15 @@
-#ifndef ORGANIZAR_H
-#define ORGANIZAR_H
+#pragma once
 
+#include <fstream>
+#include <string>
+#include <vector>
+#include <filesystem>
+#include <wx/wx.h>
+
+namespace fs = std::filesystem;
+
+void OrganizarDirectorioPorExtension(const std::vector<fs::path>& extensiones, const fs::path& ruta);
+void OrganizarDirectorioCompleto(const fs::path& ruta);
+bool ExisteExtension(const fs::path& archivo, const std::vector<fs::path>& extensiones);
 void CopiarArchivo(const fs::path& archivoOrigen, const fs::path& archivoDestino);
-void OrganizarArchivos(const std::vector<fs::path>& extensiones);
-void OrganizarDirectorioCompleto(void);
-bool esRepetido(const std::vector<fs::path>& extensiones);
-bool ComprobarExtension(const fs::path& archivo, const std::vector<fs::path>& extensiones);
-fs::path getRuta(void);
-fs::path PedirRuta(int op);
-fs::path CrearDirectorio(int op);
-int PreguntarCrearDirectorio(void);
-
-#endif
+void SeleccionarTipo(const std::vector<fs::path>& extensiones, const fs::path& ruta);

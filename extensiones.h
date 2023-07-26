@@ -1,8 +1,12 @@
-#ifndef EXTENSIONES_H
-#define EXTENSIONES_H
+#pragma once
 
-void AnadirExtensiones(std::vector<fs::path>& extensiones);
-void ImprimirExtensiones(const std::vector<fs::path>& extensiones);
-fs::path IntroducirExtension(const std::vector<fs::path>& extensiones);
+#include <string>
+#include <vector>
+#include <filesystem>
 
-#endif
+
+namespace fs = std::filesystem;
+
+std::string GuardarExtension(std::vector<fs::path>& extensiones, std::string& extension, bool& encontrado);
+bool esRepetido(const std::vector<fs::path>& extensiones, const fs::path& extBuscar);
+void EliminarExtensionDeLaLista(std::vector<fs::path>& extensiones, int index);
